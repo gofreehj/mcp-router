@@ -260,6 +260,8 @@ async function initMCPServices(): Promise<void> {
   // MCPServerManagerの初期化
   serverManager = new MCPServerManager();
 
+  setupIpcHandlers({ getServerManager: () => serverManager });
+
   // データベースからサーバーリストを読み込む
   await serverManager.initializeAsync();
 
@@ -360,9 +362,6 @@ async function initApplication(): Promise<void> {
 
   // MCPサービス初期化
   await initMCPServices();
-
-  // IPC通信ハンドラの初期化
-  setupIpcHandlers({ getServerManager: () => serverManager });
 
   const shouldShowMainWindow =
     (!launchedAtLogin || showWindowOnStartup) && !launchedWithHiddenFlag;

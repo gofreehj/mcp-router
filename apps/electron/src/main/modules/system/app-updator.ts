@@ -23,7 +23,10 @@ export function resolveAutoUpdateConfig(): AutoUpdateConfig {
     const autoUpdateEnabled = settings.autoUpdateEnabled ?? true;
 
     const shouldEnableAutoUpdate =
-      isProduction() && app.isPackaged && autoUpdateEnabled;
+      isProduction() &&
+      app.isPackaged &&
+      autoUpdateEnabled &&
+      (process.platform !== "darwin" || (app as any).isCodesigned);
 
     if (!shouldEnableAutoUpdate) {
       return { enabled: false };
